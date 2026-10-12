@@ -2,6 +2,7 @@
 #include <limits>
 #include <string>
 #include <filesystem>
+#include <fstream>
 
 #include "library.h"
 #include "filemanager.h"
@@ -86,6 +87,11 @@ int main(int argc, char* argv[]) {
     // Load existing data
     cout << "Chargement des données de la bibliothèque...\n";
     fileManager.loadLibraryData(library);
+
+    if (!fileManager.fileExists("journal.txt"))
+    {
+        ofstream(filesystem::path(dataDir) / "journal.txt");
+    }
     
     int choice;
     bool running = true;
