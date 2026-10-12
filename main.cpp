@@ -179,12 +179,43 @@ int main(int argc, char* argv[]) {
             
             case 7: { // Add User
                 string name = getInput("Entrez le nom de l'utilisateur : ");
-                string userId = getInput("Entrez l'ID de l'utilisateur : ");
-                
-                if (library.findUserById(userId)) {
-                    cout << "Erreur : Un utilisateur avec l'ID " << userId << " existe déjà.\n";
+
+                if (library.getAllUsers().size() != 0)
+                {
+                    auto dernierUser = library.getAllUsers().back();
+                    string dernierUserId = dernierUser->getUserId().substr(3);
+                    char userId[4] = {'\0', '\0', '\0', '\0'};
+                    bool max = false;
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        userId[i] = dernierUserId[i];
+                    }
+
+                    if (userId[2] != '9')
+                    {
+                        userId[2]++;
+                    } else if (userId[1] != '9')
+                    {
+                        userId[2] = '0';
+                        userId[1]++;
+                    } else if (userId[0] != '9') {
+                        userId[2] = '0';
+                        userId[1] = '0';
+                        userId[0]++;
+                    } else {
+                        max = true;
+                        cout << "Max utilisateurs atteint";
+                    }
+                    
+                    if (!max)
+                    {
+                        User newUser(name, "USR" + string(userId));
+                        library.addUser(newUser);
+                        cout << "Utilisateur ajouté avec succès !\n";
+                    }
                 } else {
-                    User newUser(name, userId);
+                    User newUser(name, "USR001");
                     library.addUser(newUser);
                     cout << "Utilisateur ajouté avec succès !\n";
                 }
