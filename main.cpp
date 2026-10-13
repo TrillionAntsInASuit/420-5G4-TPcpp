@@ -3,6 +3,7 @@
 #include <string>
 #include <filesystem>
 #include <fstream>
+#include <ctime>
 
 #include "library.h"
 #include "filemanager.h"
@@ -88,10 +89,7 @@ int main(int argc, char* argv[]) {
     cout << "Chargement des données de la bibliothèque...\n";
     fileManager.loadLibraryData(library);
 
-    if (!fileManager.fileExists("journal.txt"))
-    {
-        ofstream(filesystem::path(dataDir) / "journal.txt");
-    }
+    ofstream journal(filesystem::path(dataDir) / "journal.txt", ios::app);
     
     int choice;
     bool running = true;
@@ -120,6 +118,8 @@ int main(int argc, char* argv[]) {
                     Book newBook(title, author, isbn);
                     library.addBook(newBook);
                     cout << "Livre ajouté avec succès !\n";
+                    time_t maintenant = time(nullptr);
+                    journal << put_time(localtime(&maintenant), "%Y-%m-%d %H:%M:%S") << " - [AJOUT LIVRE] " << library.findBookByISBN(isbn)->toFileFormat() << endl;
                 }
                 pauseForInput();
                 break;
