@@ -53,6 +53,7 @@ void printUsage(const char* programName) {
 
 int main(int argc, char* argv[]) {
     string dataDir;
+    bool estVide = false;
 
     for (int i = 1; i < argc; ++i) {
         string arg = argv[i];
@@ -80,6 +81,8 @@ int main(int argc, char* argv[]) {
         }
         booksFile = (filesystem::path(dataDir) / "books.txt").string();
         usersFile = (filesystem::path(dataDir) / "users.txt").string();
+    } else {
+        estVide = true;
     }
 
     Library library;
@@ -317,7 +320,12 @@ int main(int argc, char* argv[]) {
             
             case 0: // Exit
                 cout << "Sauvegarde des données avant la fermeture...\n";
-                fileManager.saveLibraryData(library);
+                if (!estVide)
+                {
+                    fileManager.saveLibraryData(library);
+                } else {
+                    cout << "Chemin Vide! Sauvegarde des données avant la fermeture annulée.\n";
+                }
                 cout << "Merci d'avoir utilisé le Système de Gestion de Bibliothèque Personnelle !\n";
                 running = false;
                 maintenant = time(nullptr);
