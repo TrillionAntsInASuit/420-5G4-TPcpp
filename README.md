@@ -64,4 +64,18 @@ bool FileManager::saveBooksToFile(Library& library) {
 > et expliquez comment vous interfaceriez ça avec le C++. Quelle solution technologique utiliseriez vous ?
 >
 > Pensez au futur de cette bibliothèque à Alexandrie qui pourrait éventuellement contenir des millions de livres.
->> Réponse à question 2 ici
+>> Une option possible serait d'utiliser `Supabase`. `Supabase` est une base de données relationnelle.
+>>
+>> Il est capable de stocker des millions de livres et il est beaucoup plus sécuritaire qu'un fichier texte.
+>>
+>> Chaque table contient un id qui est incrémenté automatiquement. On est aussi capable de trier par un ou plusieurs colonnes.
+>>
+>> En créant une référence dans la table livre vers la table utilisateur pour l'id d'un utilisateur,
+>>
+>> on peut cliquer sur une flèche dans la colonne référencé dans la table livre pour voir les informations de l'utilisateur spécifié.
+>>
+>> Pour l'interfacer j'installerais `sudo apt install libcurl4-openssl-dev` pour installer libcurl. Ceci me permet d'envoyer des requêtes vers `Supabase`.
+>>
+>> On pourrait créer `supabase.h` qui contient le client `Supabase` avec la clé API de notre base de données.
+>>
+>> On pourrait le mettre dans `main.cpp` avec `#include "supabase.h"` et utiliser des requêtes pour envoyer les données vers la base de données.
